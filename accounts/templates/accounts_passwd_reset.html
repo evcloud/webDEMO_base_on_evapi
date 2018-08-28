@@ -1,0 +1,38 @@
+{%extends 'interclient_base.html'%}
+{%load i18n%}
+{%block base%}
+<h3>{%trans '请重新设置登陆密码'%}。</h3>
+<form id="form" role="form"  class="form-horizontal"  method="post" action="" onsubmit ="getElementById('form_btn').disabled=true;getElementById('form_btn').value='registing...';return true;">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{%trans '原密码'%}</label>
+        <div class="col-sm-9">
+            <input maxlength="254" name="passwd_old" type="password" class="form-control" style="width:200px" />
+        </div>
+    </div>
+ <div class="form-group">
+        <label class="col-sm-2 control-label">{%trans '新密码'%}</label>
+        <div class="col-sm-9">
+            <input maxlength="254" name="passwd" type="password" class="form-control" style="width:200px" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{%trans '确认密码'%}</label>
+        <div class="col-sm-9">
+            <input maxlength="254" name="passwd2" type="password" class="form-control" style="width:200px" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label"></label>
+        <div class="col-sm-9">
+            <input id="form_btn" type="submit" class="btn btn-primary" value="{%trans '保存'%}" />
+            {% if res %}
+            <script>alert('{%trans "修改成功，请重新登陆平台"%}.'); window.location.href='../login/';</script>
+            {% else%}
+            <div id="info_div">{{resinfo}}</div>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+{%endblock%}

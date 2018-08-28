@@ -1,0 +1,37 @@
+{%extends 'accounts_base.html'%}
+{%load i18n%}
+{%block base%}
+<div class="logindiv">
+<div id="header" style="background:#222222">
+   <div id="branding">
+      <h2 id="site-name" style="color:#EEEEEE" align="center">{%trans '登录'%}</h2>
+   </div>
+</div>
+<form style="margin: 10px 15px;" method="post" action="" onsubmit ="getElementById('form_btn').disabled=true;getElementById('form_btn').value='registing...';return true;">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>{%trans '账户名(Email)'%}</label>
+        <input required id="id_username" maxlength="254" name="username" type="text" class="form-control"  />
+    </div>
+    <div class="form-group">
+        <label>{%trans '密码'%}</label>
+        <input required id="id_password" name="password" type="password" class="form-control"  />
+    </div>
+    <input type="hidden" name="this_is_the_login_form" value="1" />
+    <input type="hidden" name="next" value="/interclient/vm/list/" />
+    <input type="submit" value="{%trans '登录'%}" class="btn btn-primary" />
+    <a href="/accounts/register/">{%trans '注册'%}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="/accounts/passwdfind/">{%trans '找回密码'%}</a>
+</form>
+</div>
+{%endblock%}
+
+<script>
+$(function () {    
+    $.ajaxSetup({headers: { "X-CSRFToken": getCookie("csrftoken") }    });});
+
+function getCookie(name) {
+    var arr,reg=new RegExp("(^| "+name+"=([^;]*)(;|$)");     
+    if(arr=document.cookie.match(reg))
+        return unescape(arr[2]);     else         return null; } 
+</script>

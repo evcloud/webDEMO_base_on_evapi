@@ -1,0 +1,59 @@
+{%extends 'interclient_base.html'%}
+{%load i18n%}
+{%block base%}
+
+<div class="logindiv">
+<div id="header" style="background:#222222">
+   <div id="branding">
+      <h2 id="site-name" style="color:#EEEEEE" align="center">{%trans '注册'%}</h2>
+   </div>
+</div>
+<form id='form' style="margin: 10px 15px;" method="post" action="" onsubmit ="">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>{%trans '姓名'%}</label>
+        <input maxlength="254" name="name" type="text" class="form-control"  />
+    </div>
+    <div class="form-group">
+        <label>{%trans 'Email'%}</label>
+        <input maxlength="254" name="email" type="text" class="form-control" />
+    </div>
+    <input id="form_btn" type="button" class="btn btn-primary" value="{%trans '注册'%}" />
+    <a href="/interclient/login/">{%trans '登录'%}</a>
+	<p><span id="info" style="color:red; font-size:12px">{{info}}</span></p>
+
+<font size="1px">
+{%trans '注意'%}：<br>
+1、{%trans '请使用真实姓名，以免账号审查时因信息不一致被删除.'%}<br>
+2、{%trans '面向内部用户只能使用 *@cnic.cn邮箱.'%}
+</font>
+</form>
+</div>
+
+<script type="text/javascript">
+  $('#form_btn').click(function(){
+    this.disabled=true;
+    this.value="{%trans '正在注册...'%}";
+    $("#info").html("");
+    var name = $('input[name="name"]').val();
+    var email = $('input[name="email"]').val();
+
+    $.ajax({
+      url: '/interclient/register/',
+      type: 'post',
+      data: {
+        'name': name,
+        'email': email
+      },
+      success: function(data) {
+        $("#info").html(data.info);
+      },
+      complete: function() {
+        $('#form_btn')[0].disabled = false;
+        $('#form_btn')[0].value = "{%trans '注册'%}";
+      }
+    }, 'json');
+  });
+
+</script>
+{%endblock%}

@@ -1,0 +1,32 @@
+{%extends 'accounts_base.html'%}
+{%load i18n%}
+{%block base%}
+{%if user%}
+<h3>{%trans '请设置登录密码，激活账户'%}。</h3>
+<form id="form" role="form"  class="form-horizontal"  method="post" action="" onsubmit ="getElementById('form_btn').disabled=true;getElementById('form_btn').value='registing...';return true;">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{%trans '密码'%}</label>
+        <div class="col-sm-9">
+            <input maxlength="254" name="passwd" type="password" class="form-control" style="width:200px" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{%trans '确认密码'%}</label>
+        <div class="col-sm-9">
+            <input maxlength="254" name="passwd2" type="password" class="form-control" style="width:200px" />
+        </div>
+    </div>
+    <input type="hidden" name="uuid" value="{{user.uuid}}">
+    <div class="form-group">
+        <label for="content" class="col-sm-2 control-label"></label>
+        <div class="col-sm-9">
+            <input id="form_btn" type="submit" class="btn btn-primary" value="{%trans '激活'%}" />
+            <div id="info_div">{{error}}</div>
+        </div>
+    </div>
+</form>
+{%else%}
+<h3>URL ERROR.</h3>
+{%endif%}
+{%endblock%}
